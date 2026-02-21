@@ -10,6 +10,7 @@ import TransactionsScreen from '../screens/TransactionsScreen';
 import AddTransactionScreen from '../screens/AddTransactionScreen';
 import BudgetScreen from '../screens/BudgetScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import FinancialTipsScreen from '../screens/FinancialTipsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,11 @@ function TransactionsStack() {
         name="TransactionDetail"
         component={TransactionsScreen}
         options={{ title: 'Transaction Details' }}
+      />
+      <Stack.Screen
+        name="FinancialTips"
+        component={FinancialTipsScreen}
+        options={{ title: 'Financial Tips' }}
       />
     </Stack.Navigator>
   );
@@ -50,6 +56,8 @@ function BottomTabs() {
             iconName = focused ? 'wallet' : 'wallet-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
+          } else if (route.name === 'FinancialTips') {
+            iconName = focused ? 'book' : 'book-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -64,6 +72,7 @@ function BottomTabs() {
       <Tab.Screen name="Add" component={AddTransactionScreen} />
       <Tab.Screen name="Budget" component={BudgetScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="FinancialTips" component={FinancialTipsScreen} />
     </Tab.Navigator>
   );
 }
