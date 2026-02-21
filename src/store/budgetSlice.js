@@ -1,21 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { saveBudgets, loadBudgets } from '../utils/storage';
 
-const initialState = {
-  income: 0.0,
-  groceries: 0.0,
-  utilities: 0.0,
-  entertainment: 0.0,
-  other: 0.0,
-};
+// Async thunk to load budgets from storage
+export const loadPersistedBudgets = createAsyncThunk(
+  'budget/loadPersisted',
+  async () => {
+    const budgets = await loadBudgets();
+    return budgets;
+  }
+);
 
-export const budgetSlice = createSlice({
+const budgetSlice = createSlice({
   name: 'budget',
-  initialState,
+  initialState: {
+    budgets: {},
+    loading: false,
+    error: null,
+  },
   reducers: {
     updateBudget: (state, action) => {
-      const { category, amount } = action.payload;
-      state[category] = parseFloat(amount);
+      state.budgets[action.payload.category] = action.payload.amount;
+      saveBudgets(state.budgets); // Auto-save
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadPersistedBudgets.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadPersistedBudgets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.budgets = action.payload;
+      })
+      .addCase(loadPersistedBudgets.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   },
 });
 
