@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, RefreshControl } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTransaction } from '../store/transactionsSlice';
 import * as Haptics from 'expo-haptics';
@@ -7,12 +7,21 @@ import * as Haptics from 'expo-haptics';
 export default function TransactionsScreen() {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
-  const [filter, setFilter] = useState('all'); // 'all', 'income', 'expense'
+  const [filter, setFilter] = useState('all'); // 'all', 'income', 'expense';
+  const [refreshing, setRefreshing] = useState(false);
 
   const filteredTransactions = transactions.filter((transaction) => {
     if (filter === 'all') return true;
     return transaction.type === filter;
   });
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    // Simulate refresh (or reload from AsyncStorage)
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  };
 
   const handleDelete = (id) => {
     Alert.alert('Delete Transaction', 'Are you sure you want to delete this transaction?', [
@@ -91,6 +100,14 @@ export default function TransactionsScreen() {
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No transactions found</Text>
           </View>
+        }
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#3b82f6']}
+            tintColor="#3b82f6"
+          />
         }
       />
     </View>
