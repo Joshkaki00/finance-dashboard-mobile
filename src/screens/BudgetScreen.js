@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -14,8 +14,14 @@ import { updateBudget } from '../store/budgetSlice';
 export default function BudgetScreen() {
   const dispatch = useDispatch();
   const budget = useSelector((state) => state.budget);
-  const categories = useSelector((state) => state.categories.filter((c) => c !== 'income'));
+  const allCategories = useSelector((state) => state.categories);
   const transactions = useSelector((state) => state.transactions.transactions);
+  
+  // Memoize filtered categories to prevent unnecessary re-renders
+  const categories = useMemo(
+    () => allCategories.filter((c) => c !== 'income'),
+    [allCategories]
+  );
 
   const [budgetValues, setBudgetValues] = useState({ ...budget });
 
