@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Animated,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction } from '../store/transactionsSlice';
@@ -21,6 +22,25 @@ export default function AddTransactionScreen({ navigation }) {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+  // Add animation setup here:
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 3,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const handleSubmit = () => {
     if (!amount || !category) {
@@ -136,12 +156,16 @@ export default function AddTransactionScreen({ navigation }) {
       </View>
 
       {/* Submit Button */}
-      <TouchableOpacity
-        style={[styles.submitButton, type === 'income' ? styles.submitIncome : styles.submitExpense]}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.submitText}>Add {type === 'income' ? 'Income' : 'Expense'}</Text>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+        <TouchableOpacity
+          style={[styles.submitButton, type === 'income' ? styles.submitIncome : styles.submitExpense]}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          onPress={handleSubmit}
+        >
+          <Text style={styles.submitText}>Add {type === 'income' ? 'Income' : 'Expense'}</Text>
+        </TouchableOpacity>
+      </Animated.View>
     </ScrollView>
   );
 }
