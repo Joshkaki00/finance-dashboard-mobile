@@ -11,4 +11,11 @@ export const store = configureStore({
     categories: categoriesReducer,
     financialTips: financialTipsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types for serialization checks
+        ignoredActions: ['transactions/loadPersisted/fulfilled', 'budget/loadPersisted/fulfilled'],
+      },
+    }),
 });
