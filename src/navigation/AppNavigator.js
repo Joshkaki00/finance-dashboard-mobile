@@ -19,7 +19,11 @@ const Stack = createNativeStackNavigator();
 // Stack Navigator for Transactions
 function TransactionsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+      }}
+    >
       <Stack.Screen
         name="TransactionsList"
         component={TransactionsScreen}
@@ -65,6 +69,7 @@ function BottomTabs() {
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.inactive,
+        headerTitleAlign: 'center',
       })}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
