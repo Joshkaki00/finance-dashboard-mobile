@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function SettingsScreen() {
   const handleExportData = async () => {
@@ -75,52 +76,55 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
   },
   section: {
-    backgroundColor: 'white',
-    marginTop: 16,
-    padding: 16,
+    backgroundColor: Colors.card,
+    marginTop: Spacing.base,
+    padding: Spacing.base,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
+    marginBottom: Spacing.md,
+    fontFamily: 'Roboto-Black',
   },
   settingItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: Spacing.base,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.input,
   },
   settingText: {
-    fontSize: 16,
+    fontSize: FontSize.base,
+    fontFamily: 'Roboto-Black',
   },
   dangerText: {
-    color: '#ef4444',
+    color: Colors.danger,
   },
   settingArrow: {
-    fontSize: 24,
-    color: '#999',
+    fontSize: FontSize['2xl'],
+    color: Colors.textTertiary,
   },
   aboutItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
+    paddingVertical: Spacing.md,
   },
   aboutLabel: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: FontSize.base,
+    color: Colors.textSecondary,
   },
   aboutValue: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.semibold,
+    fontFamily: 'Roboto-Black',
   },
   featureText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
     paddingVertical: 4,
   },
 });

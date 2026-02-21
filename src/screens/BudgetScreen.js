@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateBudget } from '../store/budgetSlice';
+import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function BudgetScreen() {
   const dispatch = useDispatch();
@@ -106,63 +107,67 @@ export default function BudgetScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 16,
+    backgroundColor: Colors.background,
+    padding: Spacing.base,
   },
   section: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: Colors.card,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.base,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: FontSize.xl,
+    fontWeight: FontWeight.bold,
+    marginBottom: Spacing.lg,
+    fontFamily: 'Roboto-Black',
   },
   budgetItem: {
-    marginBottom: 24,
+    marginBottom: Spacing.xl,
   },
   categoryLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.semibold,
+    marginBottom: Spacing.sm,
     textTransform: 'capitalize',
+    fontFamily: 'Roboto-Black',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    borderColor: Colors.inputBorder,
+    borderRadius: BorderRadius.base,
+    padding: Spacing.md,
+    fontSize: FontSize.base,
   },
   progressContainer: {
-    marginTop: 8,
+    marginTop: Spacing.sm,
   },
   progressBar: {
     height: 8,
-    backgroundColor: '#e5e7eb',
-    borderRadius: 4,
+    backgroundColor: Colors.border,
+    borderRadius: BorderRadius.sm,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: BorderRadius.sm,
   },
   progressText: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FontSize.xs,
+    color: Colors.textSecondary,
     marginTop: 4,
+    fontFamily: 'Roboto-Black',
   },
   saveButton: {
-    backgroundColor: '#3b82f6',
-    paddingVertical: 16,
-    borderRadius: 8,
+    backgroundColor: Colors.primary,
+    paddingVertical: Spacing.base,
+    borderRadius: BorderRadius.base,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: Spacing.sm,
   },
   saveButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: Colors.white,
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Roboto-Black',
   },
 });

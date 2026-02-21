@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function DashboardScreen() {
   const transactions = useSelector((state) => state.transactions.transactions);
@@ -64,15 +65,15 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 16,
+    backgroundColor: Colors.background,
+    padding: Spacing.base,
   },
   card: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
+    backgroundColor: Colors.card,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.lg,
+    marginBottom: Spacing.base,
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -84,56 +85,62 @@ const styles = StyleSheet.create({
   },
   incomeCard: {
     flex: 1,
-    marginRight: 8,
-    backgroundColor: '#e0f2fe',
+    marginRight: Spacing.sm,
+    backgroundColor: Colors.inputActive,
   },
   expenseCard: {
     flex: 1,
-    marginLeft: 8,
+    marginLeft: Spacing.sm,
     backgroundColor: '#fee2e2',
   },
   cardTitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    marginBottom: Spacing.sm,
+    fontFamily: 'Roboto-Black',
   },
   balance: {
-    fontSize: 36,
-    fontWeight: 'bold',
+    fontSize: FontSize['4xl'],
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Roboto-Black',
   },
   amount: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: FontSize['2xl'],
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Roboto-Black',
   },
   positive: {
-    color: '#10b981',
+    color: Colors.success,
   },
   negative: {
-    color: '#ef4444',
+    color: Colors.danger,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
+    marginBottom: Spacing.md,
+    fontFamily: 'Roboto-Black',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#999',
-    fontSize: 14,
+    color: Colors.textTertiary,
+    fontSize: FontSize.sm,
   },
   transactionItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
+    paddingVertical: Spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.input,
   },
   transactionCategory: {
-    fontSize: 16,
+    fontSize: FontSize.base,
     textTransform: 'capitalize',
+    fontFamily: 'Roboto-Black',
   },
   transactionAmount: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.semibold,
+    fontFamily: 'Roboto-Black',
   },
 });

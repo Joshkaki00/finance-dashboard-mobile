@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../constants';
 
 // Screens
 import DashboardScreen from '../screens/DashboardScreen';
@@ -62,9 +63,8 @@ function BottomTabs() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#3b82f6',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: true,
+        tabBarActiveTintColor: Colors.primary,
+        tabBarInactiveTintColor: Colors.inactive,
       })}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />

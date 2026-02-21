@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, RefreshContr
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteTransaction } from '../store/transactionsSlice';
 import * as Haptics from 'expo-haptics';
+import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function TransactionsScreen() {
   const dispatch = useDispatch();
@@ -117,43 +118,45 @@ export default function TransactionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
   },
   filterContainer: {
     flexDirection: 'row',
-    padding: 16,
-    gap: 8,
+    padding: Spacing.base,
+    gap: Spacing.sm,
   },
   filterButton: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: 'white',
+    paddingHorizontal: Spacing.md,
+    borderRadius: BorderRadius.base,
+    backgroundColor: Colors.card,
     alignItems: 'center',
   },
   filterButtonActive: {
-    backgroundColor: '#3b82f6',
+    backgroundColor: Colors.primary,
   },
   filterText: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    fontFamily: 'Roboto-Black',
   },
   filterTextActive: {
-    color: 'white',
-    fontWeight: '600',
+    color: Colors.white,
+    fontWeight: FontWeight.semibold,
+    fontFamily: 'Roboto-Black',
   },
   listContainer: {
-    padding: 16,
+    padding: Spacing.base,
   },
   transactionCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    backgroundColor: Colors.card,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.base,
+    marginBottom: Spacing.md,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -163,18 +166,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   category: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.semibold,
     textTransform: 'capitalize',
     marginBottom: 4,
+    fontFamily: 'Roboto-Black',
   },
   date: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: FontSize.xs,
+    color: Colors.textSecondary,
   },
   description: {
-    fontSize: 14,
-    color: '#444',
+    fontSize: FontSize.sm,
+    color: Colors.textPrimary,
     marginTop: 4,
   },
   transactionRight: {
@@ -182,23 +186,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   amount: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Roboto-Black',
   },
   positive: {
-    color: '#10b981',
+    color: Colors.success,
   },
   negative: {
-    color: '#ef4444',
+    color: Colors.danger,
   },
   deleteButton: {
-    marginTop: 8,
+    marginTop: Spacing.sm,
     paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingHorizontal: Spacing.sm,
   },
   deleteText: {
-    color: '#ef4444',
-    fontSize: 12,
+    color: Colors.danger,
+    fontSize: FontSize.xs,
+    fontFamily: 'Roboto-Black',
   },
   emptyContainer: {
     alignItems: 'center',
@@ -206,7 +212,8 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   emptyText: {
-    fontSize: 16,
-    color: '#999',
+    fontSize: FontSize.base,
+    color: Colors.textTertiary,
+    fontFamily: 'Roboto-Black',
   },
 });
