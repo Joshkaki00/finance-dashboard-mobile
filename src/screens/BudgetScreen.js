@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,16 +7,26 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
+  RefreshControl,
+  Animated,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateBudget } from '../store/budgetSlice';
+import { updateBudget, loadPersistedBudgets } from '../store/budgetSlice';
+import { loadPersistedTransactions } from '../store/transactionsSlice';
+import * as Haptics from 'expo-haptics';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function BudgetScreen() {
   const dispatch = useDispatch();
-  const budget = useSelector((state) => state.budget);
+  const budget = useSelector((state) => state.budget.budgets);
+  const loading = useSelector((state) => state.budget.loading);
+  const error = useSelector((state) => state.budget.error);
   const allCategories = useSelector((state) => state.categories);
   const transactions = useSelector((state) => state.transactions.transactions);
+  
+  const [refreshing, setRefreshing] = useState(false);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
   
   // Memoize filtered categories to prevent unnecessary re-renders
   const categories = useMemo(
@@ -25,6 +35,30 @@ export default function BudgetScreen() {
   );
 
   const [budgetValues, setBudgetValues] = useState({ ...budget });
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await dispatch(loadPersistedBudgets());
+    await dispatch(loadPersistedTransactions());
+    setRefreshing(false);
+  };
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 3,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const handleSave = () => {
     Object.entries(budgetValues).forEach(([category, amount]) => {
