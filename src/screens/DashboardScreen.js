@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
