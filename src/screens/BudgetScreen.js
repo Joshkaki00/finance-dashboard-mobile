@@ -103,7 +103,17 @@ export default function BudgetScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={[Colors.primary]}
+          tintColor={Colors.primary}
+        />
+      }
+    >
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Set Monthly Budget</Text>
 
@@ -149,9 +159,16 @@ export default function BudgetScreen() {
           );
         })}
 
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save Budget</Text>
-        </TouchableOpacity>
+        <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+          <TouchableOpacity 
+            style={styles.saveButton} 
+            onPress={handleSave}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+          >
+            <Text style={styles.saveButtonText}>Save Budget</Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </ScrollView>
   );
