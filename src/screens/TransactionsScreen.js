@@ -124,8 +124,8 @@ export default function TransactionsScreen() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={['#3b82f6']}
-            tintColor="#3b82f6"
+            colors={[Colors.primary]}
+            tintColor={Colors.primary}
           />
         }
       />
@@ -137,6 +137,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: Spacing.md,
+    fontSize: FontSize.base,
+    color: Colors.textSecondary,
+    fontFamily: 'Roboto-Black',
+  },
+  errorText: {
+    fontSize: FontSize.lg,
+    color: Colors.danger,
+    fontFamily: 'Roboto-Black',
+    marginBottom: Spacing.sm,
+  },
+  errorSubtext: {
+    fontSize: FontSize.sm,
+    color: Colors.textTertiary,
   },
   filterContainer: {
     flexDirection: 'row',
