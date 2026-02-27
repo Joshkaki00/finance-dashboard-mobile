@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   Animated,
+  Pressable,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction } from '../store/transactionsSlice';
