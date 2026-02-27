@@ -88,6 +88,26 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     padding: Spacing.base,
   },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: Spacing.md,
+    fontSize: FontSize.base,
+    color: Colors.textSecondary,
+    fontFamily: 'Roboto-Black',
+  },
+  errorText: {
+    fontSize: FontSize.lg,
+    color: Colors.danger,
+    fontFamily: 'Roboto-Black',
+    marginBottom: Spacing.sm,
+  },
+  errorSubtext: {
+    fontSize: FontSize.sm,
+    color: Colors.textTertiary,
+  },
   card: {
     backgroundColor: Colors.card,
     borderRadius: BorderRadius.lg,
