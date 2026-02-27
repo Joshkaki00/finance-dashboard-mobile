@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 import { loadPersistedTransactions } from '../store/transactionsSlice';
@@ -47,7 +47,9 @@ export default function DashboardScreen() {
   const balance = totalIncome - totalExpenses;
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Current Balance</Text>
         <Text style={[styles.balance, balance >= 0 ? styles.positive : styles.negative]}>
