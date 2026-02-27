@@ -48,7 +48,12 @@ export default function DashboardScreen() {
 
   return (
     <ScrollView style={styles.container} refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      <RefreshControl 
+        refreshing={refreshing} 
+        onRefresh={onRefresh}
+        colors={[Colors.primary]}
+        tintColor={Colors.primary}
+      />
     }>
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Current Balance</Text>
