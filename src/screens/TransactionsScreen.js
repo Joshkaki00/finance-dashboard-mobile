@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, RefreshControl, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTransaction } from '../store/transactionsSlice';
+import { deleteTransaction, loadPersistedTransactions } from '../store/transactionsSlice';
 import * as Haptics from 'expo-haptics';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function TransactionsScreen() {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions.transactions);
+  const loading = useSelector((state) => state.transactions.loading);
+  const error = useSelector((state) => state.transactions.error);
   const [filter, setFilter] = useState('all'); // 'all', 'income', 'expense';
   const [refreshing, setRefreshing] = useState(false);
 
@@ -16,13 +18,29 @@ export default function TransactionsScreen() {
     return transaction.type === filter;
   });
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setRefreshing(true);
-    // Simulate refresh (or reload from AsyncStorage)
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
+    await dispatch(loadPersistedTransactions());
+    setRefreshing(false);
   };
+
+  if (loading && !refreshing) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+        <Text style={styles.loadingText}>Loading transactions...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={styles.errorSubtext}>Pull down to retry</Text>
+      </View>
+    );
+  }
 
   const handleDelete = (id) => {
     Alert.alert('Delete Transaction', 'Are you sure you want to delete this transaction?', [
