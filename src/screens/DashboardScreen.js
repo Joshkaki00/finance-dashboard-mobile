@@ -5,6 +5,26 @@ import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constant
 
 export default function DashboardScreen() {
   const transactions = useSelector((state) => state.transactions.transactions);
+  const loading = useSelector((state) => state.transactions.loading);
+  const error = useSelector((state) => state.transactions.error);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+        <Text style={styles.loadingText}>Loading transactions...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={styles.errorSubtext}>Please try restarting the app</Text>
+      </View>
+    );
+  }
 
   // Calculate totals
   const totalIncome = transactions
