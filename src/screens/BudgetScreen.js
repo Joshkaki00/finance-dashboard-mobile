@@ -66,8 +66,27 @@ export default function BudgetScreen() {
         dispatch(updateBudget({ category, amount: parseFloat(amount) || 0 }));
       }
     });
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     Alert.alert('Success', 'Budget updated successfully!');
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+        <Text style={styles.loadingText}>Loading budgets...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={styles.errorSubtext}>Please try restarting the app</Text>
+      </View>
+    );
+  }
 
   // Calculate spending per category
   const getSpending = (category) => {
