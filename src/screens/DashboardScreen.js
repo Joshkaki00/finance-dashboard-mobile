@@ -1,12 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
+import { loadPersistedTransactions } from '../store/transactionsSlice';
 
 export default function DashboardScreen() {
   const transactions = useSelector((state) => state.transactions.transactions);
   const loading = useSelector((state) => state.transactions.loading);
   const error = useSelector((state) => state.transactions.error);
+  const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = React.useState(false);
+  
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await dispatch(loadPersistedTransactions());
+    setRefreshing(false);
+  };
 
   if (loading) {
     return (
