@@ -64,10 +64,13 @@ export default function SettingsScreen() {
         <Text style={styles.featureText}>✓ Budget management</Text>
         <Text style={styles.featureText}>✓ Bottom tab navigation</Text>
         <Text style={styles.featureText}>✓ Stack navigation</Text>
-        <Text style={styles.featureText}>✓ Redux state management</Text>
+        <Text style={styles.featureText}>✓ Redux Toolkit with async thunks</Text>
+        <Text style={styles.featureText}>✓ AsyncStorage persistence</Text>
+        <Text style={styles.featureText}>✓ Loading & error states</Text>
+        <Text style={styles.featureText}>✓ Pull-to-refresh</Text>
         <Text style={styles.featureText}>✓ Haptic feedback</Text>
-        <Text style={styles.featureText}>✓ AsyncStorage persistence (coming soon)</Text>
-        <Text style={styles.featureText}>✓ Data export (coming soon)</Text>
+        <Text style={styles.featureText}>✓ Button press animations</Text>
+        <Text style={styles.featureText}>✓ Custom theme system</Text>
       </View>
     </ScrollView>
   );
