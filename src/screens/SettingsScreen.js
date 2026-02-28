@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 import { Colors, FontSize, FontWeight, Spacing } from '../constants';
@@ -30,7 +30,6 @@ export default function SettingsScreen() {
       const fileUri = `${FileSystem.documentDirectory}${filename}`;
       
       // Write data to file
-      // eslint-disable-next-line sonarqube/deprecation
       await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(exportData, null, 2), {});
       
       // Check if sharing is available
