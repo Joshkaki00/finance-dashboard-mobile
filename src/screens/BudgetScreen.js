@@ -63,7 +63,7 @@ export default function BudgetScreen() {
   const handleSave = () => {
     Object.entries(budgetValues).forEach(([category, amount]) => {
       if (category !== 'income') {
-        dispatch(updateBudget({ category, amount: parseFloat(amount) || 0 }));
+        dispatch(updateBudget({ category, amount: Number.parseFloat(amount) || 0 }));
       }
     });
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -97,7 +97,7 @@ export default function BudgetScreen() {
 
   const getPercentage = (category) => {
     const spent = getSpending(category);
-    const budgeted = parseFloat(budgetValues[category]) || 0;
+    const budgeted = Number.parseFloat(budgetValues[category]) || 0;
     if (budgeted === 0) return 0;
     return Math.min((spent / budgeted) * 100, 100);
   };
@@ -125,7 +125,7 @@ export default function BudgetScreen() {
 
         {categories.map((category) => {
           const spent = getSpending(category);
-          const budgeted = parseFloat(budgetValues[category]) || 0;
+          const budgeted = Number.parseFloat(budgetValues[category]) || 0;
           const percentage = getPercentage(category);
 
           return (
