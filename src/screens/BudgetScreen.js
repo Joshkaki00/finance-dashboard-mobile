@@ -97,7 +97,7 @@ export default function BudgetScreen() {
 
   const getPercentage = (category) => {
     const spent = getSpending(category);
-    const budgeted = budgetValues[category] || 0;
+    const budgeted = parseFloat(budgetValues[category]) || 0;
     if (budgeted === 0) return 0;
     return Math.min((spent / budgeted) * 100, 100);
   };
@@ -119,7 +119,7 @@ export default function BudgetScreen() {
 
         {categories.map((category) => {
           const spent = getSpending(category);
-          const budgeted = budgetValues[category] || 0;
+          const budgeted = parseFloat(budgetValues[category]) || 0;
           const percentage = getPercentage(category);
 
           return (
