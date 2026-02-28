@@ -102,6 +102,12 @@ export default function BudgetScreen() {
     return Math.min((spent / budgeted) * 100, 100);
   };
 
+  const getProgressColor = (percentage) => {
+    if (percentage > 100) return '#ef4444'; // Red - over budget
+    if (percentage > 75) return '#f59e0b'; // Orange - warning
+    return '#10b981'; // Green - good
+  };
+
   return (
     <ScrollView 
       style={styles.container}
@@ -144,8 +150,7 @@ export default function BudgetScreen() {
                         styles.progressFill,
                         {
                           width: `${percentage}%`,
-                          backgroundColor:
-                            percentage > 100 ? '#ef4444' : percentage > 75 ? '#f59e0b' : '#10b981',
+                          backgroundColor: getProgressColor(percentage),
                         },
                       ]}
                     />
