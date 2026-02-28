@@ -1,13 +1,61 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
+import * as Haptics from 'expo-haptics';
+import { Colors, FontSize, FontWeight, Spacing } from '../constants';
 
 export default function SettingsScreen() {
+  const [exporting, setExporting] = useState(false);
+
   const handleExportData = async () => {
-    // TODO: Implement data export functionality
-    Alert.alert('Export Data', 'Data export feature coming soon!');
+    try {
+      setExporting(true);
+      
+      // Load all data from AsyncStorage
+      const transactionsData = await AsyncStorage.getItem('transactions');
+      const budgetsData = await AsyncStorage.getItem('budgets');
+      
+      const exportData = {
+        exportDate: new Date().toISOString(),
+        appVersion: '1.0.0',
+        transactions: transactionsData ? JSON.parse(transactionsData) : [],
+        budgets: budgetsData ? JSON.parse(budgetsData) : {},
+      };
+      
+      // Create filename with timestamp
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filename = `finance-data-${timestamp}.json`;
+      const fileUri = `${FileSystem.documentDirectory}${filename}`;
+      
+      // Write data to file
+      await FileSystem.writeAsStringAsync(
+        fileUri,
+        JSON.stringify(exportData, null, 2),
+        { encoding: FileSystem.EncodingType.UTF8 }
+      );
+      
+      // Check if sharing is available
+      const isAvailable = await Sharing.isAvailableAsync();
+      
+      if (isAvailable) {
+        await Sharing.shareAsync(fileUri, {
+          mimeType: 'application/json',
+          dialogTitle: 'Export Finance Data',
+          UTI: 'public.json',
+        });
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } else {
+        Alert.alert('Success', `Data exported to: ${filename}`);
+      }
+      
+      setExporting(false);
+    } catch (error) {
+      setExporting(false);
+      console.error('Error exporting data:', error);
+      Alert.alert('Error', 'Failed to export data. Please try again.');
+    }
   };
 
   const handleClearData = () => {
@@ -21,7 +69,8 @@ export default function SettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             await AsyncStorage.clear();
-            Alert.alert('Success', 'All data has been cleared');
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            Alert.alert('Success', 'All data has been cleared. Restart the app to see changes.');
           },
         },
       ]
@@ -33,8 +82,21 @@ export default function SettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Data Management</Text>
 
-        <TouchableOpacity style={styles.settingItem} onPress={handleExportData}>
-          <Text style={styles.settingText}>Export Data</Text>
+        <TouchableOpacity 
+          style={styles.settingItem} 
+          onPress={handleExportData}
+          disabled={exporting}
+        >
+          <View style={styles.settingTextContainer}>
+            <Text style={styles.settingText}>Export Data</Text>
+            {exporting && (
+              <ActivityIndicator 
+                size="small" 
+                color={Colors.primary} 
+                style={styles.loadingIndicator}
+              />
+            )}
+          </View>
           <Text style={styles.settingArrow}>›</Text>
         </TouchableOpacity>
 
@@ -71,6 +133,7 @@ export default function SettingsScreen() {
         <Text style={styles.featureText}>✓ Haptic feedback</Text>
         <Text style={styles.featureText}>✓ Button press animations</Text>
         <Text style={styles.featureText}>✓ Custom theme system</Text>
+        <Text style={styles.featureText}>✓ Data export (JSON)</Text>
       </View>
     </ScrollView>
   );
@@ -100,9 +163,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.input,
   },
+  settingTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   settingText: {
     fontSize: FontSize.base,
     fontFamily: 'Roboto-Black',
+  },
+  loadingIndicator: {
+    marginLeft: Spacing.sm,
   },
   dangerText: {
     color: Colors.danger,
