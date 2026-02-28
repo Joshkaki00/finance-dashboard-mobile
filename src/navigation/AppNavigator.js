@@ -73,7 +73,11 @@ function BottomTabs() {
       })}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Transactions" component={TransactionsStack} />
+      <Tab.Screen 
+        name="Transactions" 
+        component={TransactionsStack}
+        options={{ headerShown: false }}
+      />
       <Tab.Screen name="Add" component={AddTransactionScreen} />
       <Tab.Screen name="Budget" component={BudgetScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
