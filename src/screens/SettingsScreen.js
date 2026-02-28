@@ -30,11 +30,8 @@ export default function SettingsScreen() {
       const fileUri = `${FileSystem.documentDirectory}${filename}`;
       
       // Write data to file
-      await FileSystem.writeAsStringAsync(
-        fileUri,
-        JSON.stringify(exportData, null, 2),
-        { encoding: FileSystem.EncodingType.UTF8 }
-      );
+      // eslint-disable-next-line sonarqube/deprecation
+      await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(exportData, null, 2), {});
       
       // Check if sharing is available
       const isAvailable = await Sharing.isAvailableAsync();
@@ -67,10 +64,16 @@ export default function SettingsScreen() {
         {
           text: 'Delete All',
           style: 'destructive',
-          onPress: async () => {
-            await AsyncStorage.clear();
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            Alert.alert('Success', 'All data has been cleared. Restart the app to see changes.');
+          onPress: () => {
+            AsyncStorage.clear()
+              .then(() => {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                Alert.alert('Success', 'All data has been cleared. Restart the app to see changes.');
+              })
+              .catch((error) => {
+                console.error('Error clearing data:', error);
+                Alert.alert('Error', 'Failed to clear data. Please try again.');
+              });
           },
         },
       ]
