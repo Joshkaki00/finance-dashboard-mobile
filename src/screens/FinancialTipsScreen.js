@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFinancialTips } from '../store/financialTipsSlice';
+import * as Haptics from 'expo-haptics';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '../constants';
 
 export default function FinancialTipsScreen() {
@@ -15,6 +16,7 @@ export default function FinancialTipsScreen() {
   }, [status, dispatch]);
 
   const handleRefresh = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     dispatch(fetchFinancialTips());
   };
 
@@ -62,8 +64,8 @@ export default function FinancialTipsScreen() {
         </TouchableOpacity>
       </View>
 
-      {tips.map((tip, index) => (
-        <View key={index} style={styles.tipCard}>
+      {tips.map((tip) => (
+        <View key={`${tip.author}-${tip.quote.substring(0, 20)}`} style={styles.tipCard}>
           <Text style={styles.quote}>"{tip.quote}"</Text>
           <Text style={styles.author}>— {tip.author}</Text>
         </View>
