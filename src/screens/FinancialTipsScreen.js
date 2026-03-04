@@ -58,16 +58,31 @@ export default function FinancialTipsScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>💡 Financial Wisdom</Text>
+        <Text style={styles.title}>💡 Your Financial Insights</Text>
         <TouchableOpacity onPress={handleRefresh}>
           <Text style={styles.refreshLink}>🔄 Refresh</Text>
         </TouchableOpacity>
       </View>
 
+      <Text style={styles.subtitle}>
+        Based on your spending patterns and budgets
+      </Text>
+
       {tips.map((tip) => (
-        <View key={`${tip.author}-${tip.quote.substring(0, 20)}`} style={styles.tipCard}>
-          <Text style={styles.quote}>"{tip.quote}"</Text>
-          <Text style={styles.author}>— {tip.author}</Text>
+        <View 
+          key={`${tip.title}-${tip.icon}`} 
+          style={[
+            styles.tipCard,
+            tip.type === 'positive' && styles.tipCardPositive,
+            tip.type === 'warning' && styles.tipCardWarning,
+            tip.type === 'caution' && styles.tipCardCaution,
+          ]}
+        >
+          <Text style={styles.tipIcon}>{tip.icon}</Text>
+          <View style={styles.tipContent}>
+            <Text style={styles.tipTitle}>{tip.title}</Text>
+            <Text style={styles.tipDescription}>{tip.description}</Text>
+          </View>
         </View>
       ))}
     </ScrollView>
@@ -90,12 +105,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: Spacing.base,
+    marginBottom: Spacing.sm,
   },
   title: {
     fontSize: FontSize['2xl'],
     fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
+    fontFamily: 'Roboto-Black',
+  },
+  subtitle: {
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    marginBottom: Spacing.lg,
     fontFamily: 'Roboto-Black',
   },
   refreshLink: {
@@ -113,19 +134,40 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    flexDirection: 'row',
+    borderLeftWidth: 4,
+    borderLeftColor: Colors.primary,
   },
-  quote: {
-    fontSize: FontSize.base,
-    fontStyle: 'italic',
+  tipCardPositive: {
+    borderLeftColor: Colors.success,
+    backgroundColor: '#f0fdf4',
+  },
+  tipCardWarning: {
+    borderLeftColor: Colors.danger,
+    backgroundColor: '#fef2f2',
+  },
+  tipCardCaution: {
+    borderLeftColor: Colors.warning,
+    backgroundColor: '#fffbeb',
+  },
+  tipIcon: {
+    fontSize: 32,
+    marginRight: Spacing.md,
+  },
+  tipContent: {
+    flex: 1,
+  },
+  tipTitle: {
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
     color: Colors.textPrimary,
-    marginBottom: Spacing.md,
-    lineHeight: 24,
-  },
-  author: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-    textAlign: 'right',
+    marginBottom: Spacing.sm,
     fontFamily: 'Roboto-Black',
+  },
+  tipDescription: {
+    fontSize: FontSize.base,
+    color: Colors.textPrimary,
+    lineHeight: 22,
   },
   loadingText: {
     marginTop: Spacing.md,
